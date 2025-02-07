@@ -10,7 +10,7 @@ Dynamic hand gesture authentication aims to recognize users' identity through th
 
 <div align="center">
  <p align="center">
-  <img src="https://raw.githubusercontent.com/SCUT-BIP-Lab/MSBA-Net/master/img/img1.png" />
+  <img src="https://raw.githubusercontent.com/SCUT-BIP-Lab/TranslationCKD/master/img/img1.png" />
 </p>
 </div>
 
@@ -18,7 +18,7 @@ The proposed knowledge translation method. N is the number of the frame, and the
 
 <div align="center">
  <p align="center">
-  <img src="https://raw.githubusercontent.com/SCUT-BIP-Lab/MSBA-Net/master/img/img2.png" />
+  <img src="https://raw.githubusercontent.com/SCUT-BIP-Lab/TranslationCKD/master/img/img2.png" />
 </p>
 </div>
 
