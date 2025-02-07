@@ -22,7 +22,7 @@ The proposed knowledge translation method. N is the number of the frame, and the
 </p>
 </div>
 
-The details of the MFENL module. ConvD is a 2 × 2 convolution with downsampling for matching the shape. The PM and RS denote permute and reshape operations, respectively. The weights and biases of the Batch Normalization Layer (BNF and BNE) are initialized to zero.
+The details of the MFENL module. ConvD is a 2 × 2 convolution with downsampling for matching the shape. The PM and RS denote permute and reshape operations, respectively. The weights and biases of the Batch Normalization Layer are initialized to zero.
 
 ## Dependencies
 Please make sure the following libraries are installed successfully:
