@@ -119,20 +119,16 @@ class cfuse_layer(nn.Module):
     def __init__(self):
         # start 0, 1, 2, 3 -> ResNet 4个 stage
         super(cfuse_layer, self).__init__()
-        assert start > -1
-        assert start < 4
-        self.start = start
-        self.method = method
         
-        self.fuse_layer1 = MFENLWapper(128, aggregation)
-        self.fuse_layer2 = MFENLWapper(256, aggregation)
-        self.fuse_layer3 = MFENLWapper(512, aggregation)
+        self.fuse_layer1 = MFENLWapper(128)
+        self.fuse_layer2 = MFENLWapper(256)
+        self.fuse_layer3 = MFENLWapper(512)
 
     def forward(self, x_rgb, x_flow):
         x_fuse_list = []
-        x_fuse_list.append(self.fuse_layer1(x_rgb[1], x_flow[1], x_fuse_list[-1] if self.start < 1 else None))
-        x_fuse_list.append(self.fuse_layer2(x_rgb[2], x_flow[2], x_fuse_list[-1] if self.start < 2 else None))
-        x_fuse_list.append(self.fuse_layer3(x_rgb[3], x_flow[3], x_fuse_list[-1] if self.start < 3 else None))
+        x_fuse_list.append(self.fuse_layer1(x_rgb[1], x_flow[1], None))
+        x_fuse_list.append(self.fuse_layer2(x_rgb[2], x_flow[2], x_fuse_list[-1]))
+        x_fuse_list.append(self.fuse_layer3(x_rgb[3], x_flow[3], x_fuse_list[-1]))
 
         return x_fuse_list
 
