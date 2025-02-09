@@ -12,8 +12,8 @@ class Model(torch.nn.Module):
 
         # cv模型
         self.cv_model = ResNet3d(depth=18,
-                                  pretrained="", #### required
-                                  # pretrained=None,
+                                #   pretrained="", #### required
+                                  pretrained=None,
                                   pretrained2d=True,
                                   in_channels=3,
                                   num_stages=4,
@@ -26,6 +26,9 @@ class Model(torch.nn.Module):
                                   with_pool2=False
                                   # zero_init_residual=False
                                   )
+        self.cv_model.pool = nn.AdaptiveAvgPool2d(output_size=[1, 1])
+        self.cv_model.fc = nn.Linear(in_features=feature_dim,
+                                    out_features=feature_dim)
         # 帧融合
         self.feature_dim = feature_dim
         # 损失
@@ -42,7 +45,7 @@ class Model(torch.nn.Module):
                 label = label.cuda()
 
         data = data.permute(0, 2, 1, 3, 4) #batch,frames,channel w,h->batch,channel,frames,w,h
-        cv_feature1, cv_feature2, cv_feature3, cv_feature4 = self.cv_model.model(data)
+        cv_feature1, cv_feature2, cv_feature3, cv_feature4 = self.cv_model(data)
         batch_size, c, t, h, w = cv_feature4.shape
         cv_feature_avg = cv_feature4.permute(0, 2, 1, 3, 4).reshape(-1, c, h, w) # 修改
         cv_feature_avg = self.cv_model.pool(cv_feature_avg)
