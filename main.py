@@ -9,7 +9,8 @@ from cl_mfenl import CL_MSCL
 def train_demo():
     # the feature dim of last feature map (layer4) from i3d_resnet18 is 512
     feature_dim = 512
-    model = CL_MSCL(feature_dim=feature_dim)
+    device = torch.device("cuda:0" if torch.cuda.is_available() and torch.cuda.device_count() > 0 else "cpu")
+    model = CL_MSCL(feature_dim=feature_dim).to(device)
     """
     todo: loading the weights of teacher networks
 
@@ -19,19 +20,21 @@ def train_demo():
         # the first tensor of the modal dimension is the target modality
         data = torch.randn(2, 64, 3, 2, 224, 224) #batch, frame, channel, modality, h, w
         data = data.view(2, 64, -1, 224, 224) #regard the frame as batch
-        label = torch.ones(2) # there are 143 identities in the training set
+        label = torch.ones(2, dtype=torch.int64) # there are 143 identities in the training set
         fis = model.co_learning(data, label, optimizer)
 
-    return id_feature
+    return fis
 
 def test_demo():
     # the feature dim of last feature map (layer4) from i3d_resnet18 is 512
     feature_dim = 512
-    model = CL_MSCL(feature_dim=feature_dim)
+    device = torch.device("cuda:0" if torch.cuda.is_available() and torch.cuda.device_count() > 0 else "cpu")
+    model = CL_MSCL(feature_dim=feature_dim).to(device)
     data = torch.randn(1, 64, 3, 1, 224, 224) #batch, frame, channel, modality, h, w
     fis = model(data)
     feature = fis['cv_feature']
 
 if __name__ == '__main__':
     train_demo()
+    test_demo()
     print("Demo is finished!")
